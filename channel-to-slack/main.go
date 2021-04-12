@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -12,11 +13,9 @@ import (
 	"channel-to-slack/domain"
 )
 
-var (
-	IncomingURL = ""
-)
-
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	incomingWebHookURL := os.Getenv("INCOMING_WEBHOOK_URL")
+
 	channel, err := domain.NewChannel(request.Body)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
@@ -30,7 +29,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	resp, _ := http.PostForm(
-		IncomingURL,
+		incomingWebHookURL,
 		url.Values{"payload": {string(slackParams)}},
 	)
 	body, _ := ioutil.ReadAll(resp.Body)

@@ -1,2 +1,3 @@
 .aws-sam
 main
+env.json
