@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
-	"github.com/keinuma/channel-to-slack/domain"
+	"channel-to-slack/domain"
 )
 
 var (
